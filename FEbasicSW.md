@@ -46,3 +46,35 @@ style OS fill:#8aa,stroke:#333,stroke-width:3px,color:fff
 + 開発効率アップ
 + 操作性の統一
 + 互換性の確保
+
+## タスク管理
+
+### Jobは実行単位であるtaskに分解される
+
+```mermaid
+graph LR
+Job --> Task1
+Job --> Task2
+Job --> Task3
+```
+
+### Taskの状態遷移
+
+```mermaid
+graph LR
+RUN --> |入出力中|WAIT
+READY --> |優先権GET|RUN
+WAIT --> |実行可能|READY
+RUN --> |優先順位変更|READY
+RUN --> |タスク消失|TERMINATE
+```
+
+タスクがたまっていき、使用権を得るまで待つ。
+使用権を管理するのはディスパッチャの役割。
+
+### ディスパッチャ
+
++ 到着順
++ 優先順
++ ラウンドロビン...一定時間単位で使用権の付与、終わらないタスクは最後に回される
+
