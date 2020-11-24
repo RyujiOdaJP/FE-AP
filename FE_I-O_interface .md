@@ -1,5 +1,7 @@
 # 入出力インターフェース
 
+![image](https://jouhougijutu.up.seesaa.net/image/E4BC9DE98081E696B9E5BC8F.jpg)
+
 ## パラレル
 
 + 信号をまとめて並列に送る
