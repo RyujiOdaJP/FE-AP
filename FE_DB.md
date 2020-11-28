@@ -4,7 +4,28 @@ DBMSはDBの定義や操作制御などの機能をもつミドルウェア
 
 ## 正規化
 
-
-
 ![正規化](http://kanauka.o-oku.jp/4_jyohosystem/visio/seikika.gif)
 
+射影は列を取り出す演算　SELECT
+選択は特定のレコードのみを取り出す演算　SELECT + WHERE
+
+## 3層スキーマ
+
+データの独立性を高める目的
+
+- 外部スキーマ　ユーザがアプリケーションから見るデータ群
+- 概念スキーマ　DBそのもの、テーブル設計、キー設定、リレーションなど開発者が見る部分
+- 内部スキーマ　ディスクにどう格納するかの設計
+
+![schema](https://image.itmedia.co.jp/ait/articles/1703/01/r20_04-01.PNG)
+![description](https://image.slidesharecdn.com/09-131209212904-phpapp01/95/09-10-638.jpg?cb=1465285938)
+
+## 主キー
+
+テーブル内で内容が重複しない＋空でないキー
+複数の列を組み合わせれば一意になるキーは**複合キー**という
+
+## 外部キー
+
+表と表を関係付けるため、他の表の主キーを参照すること
+![foreign_key](https://xtech.nikkei.com/it/members/ITPro/ITBASIC/20000919/1/zu02.gif)
