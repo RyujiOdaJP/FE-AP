@@ -54,3 +54,32 @@ group by name
   having avg(value) > 200
 
 ```
+
+## トランザクション管理と排他制御
+
+同時にカラムやテーブルを編集してしまったときに不整合が起きないようにする仕組み
+
+### トランザクション
+
+```mermaid
+graph LR
+在庫数確認
+-->在庫数更新
+---|一連の流れ:トランザクション|在庫数確認
+```
+### 排他制御
+
+データをロックする機能
+- 共有ロック　他のユーザも読むことはできる
+- 専有ロック 読み書きできない
+
+複数のトランザクションでお互いにロックを掛けてしまい、永遠に解除を待ち続ける状態を**デッドロック**という
+
+## ACID特性
+
+- Atomicity
+- Consistency
+- Isolation
+- Durability
+
+![acid](https://www.seplus.jp/dokushuzemi/wp-content/uploads/2018/12/architecture_rdbms_slide_37.png)
