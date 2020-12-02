@@ -40,3 +40,17 @@ DBMSはDBの定義や操作制御などの機能をもつミドルウェア
 
 表と表を関係付けるため、他の表の主キーを参照すること
 ![foreign_key](https://xtech.nikkei.com/it/members/ITPro/ITBASIC/20000919/1/zu02.gif)
+
+## SQL
+
+```sql
+
+-- HAVING
+-- Group化した中から条件に合致するものだけを抽出
+
+select id, name ,avg(value) from table
+where in id (1,2,3,4)
+group by name
+  having avg(value) > 200
+
+```
