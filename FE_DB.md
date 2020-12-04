@@ -67,6 +67,7 @@ graph LR
 -->在庫数更新
 ---|一連の流れ:トランザクション|在庫数確認
 ```
+
 ### 排他制御
 
 データをロックする機能
@@ -75,11 +76,60 @@ graph LR
 
 複数のトランザクションでお互いにロックを掛けてしまい、永遠に解除を待ち続ける状態を**デッドロック**という
 
-## ACID特性
+### ACID特性
 
-- Atomicity
-- Consistency
-- Isolation
-- Durability
+- Atomicity 正常に終われば処理、異常なら実行しない
+- Consistency　DBの内容に矛盾がないこと
+- Isolation 複数人で同時にクエリが実行されても相互に影響させない様にする
+- Durability　障害が発生してもトランザクションの更新結果は保証される（復旧手段が保証される）
 
+![consistency](https://itmanabi.com/wp-content/uploads/2020/02/referential-integrity-destroy.png)
 ![acid](https://www.seplus.jp/dokushuzemi/wp-content/uploads/2018/12/architecture_rdbms_slide_37.png)
+
+
+### ストアドプロシージャ
+
+SQL文を1つのプログラムにまとめ、DBMS側に保存しておくこと。
+クライアントはプロシージャを呼び出すだけで実行できる＝通信量削減
+
+関数的な使い方ができる
+
+```sql
+CREATE PROCEDURE sample02( IN x INT )
+SELECT x + 1;
+実行結果
+mysql> CALL sample02( 2 );
++-------+
+| x + 1 |
++-------+
+|     3 |
++-------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+```
+
+## DB障害管理
+
+バックアップやジャーナルファイルを使う。
+ジャーナルはバックアップ前後の差分をログファイルとして更新履歴を管理する。
+
+### コミットとロールバック
+
+トランザクションのAtomicityに従って更新処理の確定をする＝コミット
+送金主の残高は減っているのに受け取り側の残高が増えていないといった事象を防ぐ
+
+障害が発生した場合は、トランザクションを破棄し更新前ジャーナルを使ってロールバックする
+
+### 分散DBと2相コミット
+
+見かけ上1つのDBだが各サイトに散してシステムが組まれている場合がある。
+コミットするとき、全てのサイトに問合せ、全て処理可能な状況なら許容する。
+1つでも不可ならロールバックする。これを２相コミットという。
+
+### ロールフォワード
+
+HW障害などでDBが機能しなくなった場合、バックアップファイルから復元し、以降を更新後ジャーナルに従って反映させていく。
+一連の手順をロールフォワードという。
+![roll forward](https://static.wixstatic.com/media/b51750_382d3f3d0bdf4ea782a23d6c5288e1cc~mv2.png/v1/fit/w_320%2Ch_403%2Cal_c%2Cq_80/file.png)
+
